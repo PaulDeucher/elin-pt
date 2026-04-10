@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elins PT Program</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --blue-start: #4facfe;
+    --blue-end: #00f2fe;
+    --red-start: #f5576c;
+    --red-end: #ff6a88;
+    --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f5576c 100%);
+    --gradient-blue: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --gradient-red: linear-gradient(135deg, #f5576c 0%, #ff6a88 100%);
+    --gradient-purple: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+    --gradient-warm: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --gradient-subtle: linear-gradient(135deg, #e0e5ec 0%, #f9fafb 100%);
+    --gradient-card: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
+    --white: #ffffff;
+    --bg: #f0f4f8;
+    --text-primary: #1a1a2e;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+    --border: rgba(0,0,0,0.06);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+    --shadow-glow-blue: 0 8px 30px rgba(79,172,254,0.25);
+    --shadow-glow-red: 0 8px 30px rgba(245,87,108,0.2);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --radius-xs: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.65;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: var(--gradient-hero);
+    padding: 70px 40px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.08) 0%, transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
+    animation: float 20s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(2deg); }
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border-radius: 40px;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-size: 3.2rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -1px;
+    margin-bottom: 14px;
+    line-height: 1.1;
+  }
+  .hero p {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.8);
+    max-width: 550px;
+    margin: 0 auto;
+    font-weight: 300;
+  }
+
+  /* ===== STATS BAR ===== */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    z-index: 2;
+  }
+  .stat-item {
+    padding: 22px 36px;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    flex: 1;
+    max-width: 200px;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-size: 1.5rem;
+    font-weight: 800;
+    display: block;
+    background: var(--gradient-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  /* ===== CONTAINER ===== */
+  .container { max-width: 920px; margin: 0 auto; padding: 0 28px; }
+
+  /* ===== SECTIONS ===== */
+  .section { padding: 50px 0 30px; }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .section-label.blue {
+    background: linear-gradient(135deg, rgba(79,172,254,0.12), rgba(0,242,254,0.08));
+    color: #3b82f6;
+  }
+  .section-label.red {
+    background: linear-gradient(135deg, rgba(245,87,108,0.12), rgba(255,106,136,0.08));
+    color: #ef4444;
+  }
+  .section-label.purple {
+    background: linear-gradient(135deg, rgba(161,140,209,0.15), rgba(251,194,235,0.1));
+    color: #8b5cf6;
+  }
+  .section-label.green {
+    background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(52,211,153,0.08));
+    color: #10b981;
+  }
+  .section h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 14px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+  .lead {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 28px;
+    line-height: 1.8;
+    max-width: 700px;
+  }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    margin-bottom: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* ===== TRAINING DAY CARDS ===== */
+  .day-header {
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .day-badge {
+    color: #fff;
+    font-weight: 800;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+  .day-badge.blue { background: var(--gradient-blue); box-shadow: var(--shadow-glow-blue); }
+  .day-badge.red { background: var(--gradient-red); box-shadow: var(--shadow-glow-red); }
+  .day-badge.purple { background: var(--gradient-purple); }
+  .day-title { font-size: 1.15rem; font-weight: 700; color: var(--text-primary); }
+  .day-subtitle { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
+  .day-body { padding: 24px 28px; }
+
+  /* ===== EXERCISE TABLE ===== */
+  .phase-title {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin: 22px 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .phase-title.blue { color: #3b82f6; border-image: var(--gradient-blue) 1; }
+  .phase-title.red { color: #ef4444; border-image: var(--gradient-red) 1; }
+  .phase-title.purple { color: #8b5cf6; border-image: var(--gradient-purple) 1; }
+  .phase-title:first-child { margin-top: 0; }
+
+  .exercise-row {
+    display: grid;
+    grid-template-columns: 1fr 70px 80px 1fr;
+    gap: 8px;
+    padding: 11px 0;
+    border-bottom: 1px solid #f1f5f9;
+    align-items: center;
+    font-size: 0.88rem;
+  }
+  .exercise-row:last-child { border-bottom: none; }
+  .exercise-name { color: var(--text-primary); font-weight: 500; }
+  .exercise-sets {
+    text-align: center;
+    font-weight: 800;
+    background: var(--gradient-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .exercise-reps { color: var(--text-secondary); text-align: center; font-weight: 500; }
+  .exercise-note { color: var(--text-muted); font-size: 0.78rem; font-style: italic; }
+  .ex-header {
+    color: var(--text-muted) !important;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+    -webkit-text-fill-color: var(--text-muted) !important;
+  }
+  .superset-note {
+    background: linear-gradient(135deg, rgba(79,172,254,0.06), rgba(0,242,254,0.04));
+    border-radius: var(--radius-xs);
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+    border-left: 3px solid #4facfe;
+  }
+
+  /* ===== CALLOUT ===== */
+  .callout {
+    border-radius: var(--radius-sm);
+    padding: 18px 22px;
+    margin: 22px 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+  .callout.blue {
+    background: linear-gradient(135deg, rgba(79,172,254,0.08), rgba(0,242,254,0.04));
+    border-left: 3px solid #4facfe;
+  }
+  .callout.blue strong { color: #2563eb; }
+  .callout.red {
+    background: linear-gradient(135deg, rgba(245,87,108,0.08), rgba(255,106,136,0.04));
+    border-left: 3px solid #f5576c;
+  }
+  .callout.red strong { color: #ef4444; }
+  .callout.purple {
+    background: linear-gradient(135deg, rgba(161,140,209,0.1), rgba(251,194,235,0.05));
+    border-left: 3px solid #a18cd1;
+  }
+  .callout.purple strong { color: #7c3aed; }
+
+  /* ===== PRINCIPLES ===== */
+  .principle-list { list-style: none; padding: 0; margin-top: 18px; }
+  .principle-list li {
+    padding: 14px 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .principle-num {
+    font-weight: 800;
+    font-size: 1rem;
+    min-width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: #fff;
+    background: var(--gradient-blue);
+    flex-shrink: 0;
+    font-size: 0.75rem;
+  }
+  .principle-list li strong { color: var(--text-primary); }
+
+  /* ===== MACRO GRID ===== */
+  .macro-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin: 28px 0;
+  }
+  .macro-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 22px 16px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s;
+  }
+  .macro-card:hover { transform: translateY(-2px); }
+  .macro-card.highlight { border-color: transparent; background: linear-gradient(135deg, rgba(245,87,108,0.06), rgba(255,106,136,0.03)); border: 1px solid rgba(245,87,108,0.15); }
+  .macro-num {
+    font-size: 1.8rem;
+    font-weight: 800;
+    display: block;
+    background: var(--gradient-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .macro-card.highlight .macro-num {
+    background: var(--gradient-red);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .macro-unit { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; }
+  .macro-name {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 700;
+    margin-top: 6px;
+  }
+
+  /* ===== FOOD GRID ===== */
+  .food-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .food-item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s;
+  }
+  .food-item:hover { transform: translateY(-1px); }
+  .food-name { color: var(--text-primary); font-size: 0.88rem; font-weight: 600; }
+  .food-macros { color: var(--text-muted); font-size: 0.78rem; margin-top: 4px; font-weight: 500; }
+  .food-protein {
+    font-weight: 700;
+    background: var(--gradient-red);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ===== MEAL PLAN ===== */
+  .meal-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 18px 22px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow-sm);
+  }
+  .meal-card.preworkout {
+    border-left: 3px solid transparent;
+    border-image: var(--gradient-blue) 1;
+    border-image-slice: 1;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+  .meal-time {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 4px;
+    background: var(--gradient-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .meal-card.preworkout .meal-time {
+    background: var(--gradient-red);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .meal-name { font-size: 0.95rem; color: var(--text-primary); font-weight: 500; margin-bottom: 4px; }
+  .meal-macros { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+  .meal-macros span {
+    font-weight: 700;
+    background: var(--gradient-red);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ===== CYCLE GRID ===== */
+  .cycle-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .cycle-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s;
+  }
+  .cycle-card:hover { transform: translateY(-2px); }
+  .cycle-card.pmds-card {
+    border: 1px solid rgba(245,87,108,0.2);
+    background: linear-gradient(145deg, #fff, rgba(245,87,108,0.03));
+  }
+  .cycle-phase {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cycle-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .cycle-dot.red { background: var(--gradient-red); }
+  .cycle-dot.blue { background: var(--gradient-blue); }
+  .cycle-dot.green { background: linear-gradient(135deg, #10b981, #34d399); }
+  .cycle-dot.purple { background: var(--gradient-purple); }
+  .cycle-phase.red { color: #ef4444; }
+  .cycle-phase.blue { color: #3b82f6; }
+  .cycle-phase.green { color: #10b981; }
+  .cycle-phase.purple { color: #8b5cf6; }
+  .cycle-days { font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+  .cycle-desc { font-size: 0.84rem; color: var(--text-secondary); line-height: 1.6; }
+  .cycle-tags { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .cycle-tag {
+    background: #f1f5f9;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  /* ===== PHOTO / FEATURE CARDS ===== */
+  .feature-card {
+    border-radius: var(--radius);
+    padding: 30px;
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-card.blue-glass {
+    background: linear-gradient(135deg, rgba(79,172,254,0.1), rgba(0,242,254,0.05));
+    border: 1px solid rgba(79,172,254,0.15);
+  }
+  .feature-card.red-glass {
+    background: linear-gradient(135deg, rgba(245,87,108,0.08), rgba(255,106,136,0.04));
+    border: 1px solid rgba(245,87,108,0.15);
+  }
+  .feature-card.green-glass {
+    background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(52,211,153,0.04));
+    border: 1px solid rgba(16,185,129,0.15);
+  }
+  .feature-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .feature-card.blue-glass h3 { color: #2563eb; }
+  .feature-card.red-glass h3 { color: #ef4444; }
+  .feature-card.green-glass h3 { color: #059669; }
+  .feature-card p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.7; margin-bottom: 12px; }
+  .feature-list { list-style: none; padding: 0; }
+  .feature-list li {
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    color: var(--text-secondary);
+    font-size: 0.86rem;
+    padding-left: 24px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .feature-list li:before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+  }
+  .feature-card.blue-glass .feature-list li:before { color: #3b82f6; }
+  .feature-card.red-glass .feature-list li:before { color: #ef4444; }
+  .feature-card.green-glass .feature-list li:before { color: #10b981; }
+
+  /* ===== TIPS GRID ===== */
+  .tip-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 22px;
+  }
+  .tip-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s;
+  }
+  .tip-card:hover { transform: translateY(-2px); }
+  .tip-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, rgba(79,172,254,0.1), rgba(0,242,254,0.06));
+  }
+  .tip-title { font-size: 0.92rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+  .tip-body { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* ===== PROGRESS BARS ===== */
+  .progress-bar-wrap { margin: 10px 0; }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .progress-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .progress-tag.high { color: #3b82f6; }
+  .progress-tag.low { color: var(--text-muted); }
+  .progress-bar-bg { background: #e8ecf1; border-radius: 6px; height: 8px; overflow: hidden; }
+  .progress-bar {
+    height: 8px;
+    border-radius: 6px;
+    background: var(--gradient-blue);
+    transition: width 0.6s ease;
+  }
+  .progress-bar.dim { background: #cbd5e1; }
+
+  /* ===== DIVIDER ===== */
+  .gradient-divider {
+    height: 2px;
+    border: none;
+    background: linear-gradient(90deg, transparent, rgba(79,172,254,0.3), rgba(245,87,108,0.3), transparent);
+    margin: 10px 0;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 50px 28px;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    margin-top: 30px;
+  }
+  .footer-gradient {
+    display: inline-block;
+    font-weight: 700;
+    background: var(--gradient-hero);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 700px) {
+    .macro-grid { grid-template-columns: 1fr 1fr; }
+    .cycle-grid { grid-template-columns: 1fr; }
+    .food-list { grid-template-columns: 1fr; }
+    .tip-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2.2rem; }
+    .stats-bar { flex-wrap: wrap; }
+    .stat-item { min-width: 50%; border-bottom: 1px solid var(--border); }
+    .exercise-row { grid-template-columns: 1fr 50px 60px; }
+    .exercise-note { display: none; }
+    .container { padding: 0 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Hollywood Method &middot; Personligt Program</div>
+    <h1>Elins PT Program</h1>
+    <p>Maximum resultat p&aring; minimum tid &mdash; designat f&ouml;r en aktiv mamma med ADHD &amp; PMDS</p>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-num">3</span>
+    <span class="stat-label">Gym-dagar/vecka</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">90</span>
+    <span class="stat-label">Min per session</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">1800</span>
+    <span class="stat-label">Kcal baseline</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">10k</span>
+    <span class="stat-label">Steg/dag</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">Rekomp</span>
+    <span class="stat-label">M&aring;l</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- FILOSOFI -->
+  <div class="section">
+    <span class="section-label blue">Metoden</span>
+    <h2>Hollywood Rekomp &mdash; Fett ner, Muskler upp</h2>
+    <p class="lead">Du g&ouml;r redan det viktigaste r&auml;tt: 10 000 steg, kalorirer&auml;kning och gym. Nu handlar det om att optimera varje del f&ouml;r att kroppen ska g&aring; in i rekomp &mdash; det tillst&aring;nd d&auml;r du bygger muskler och br&auml;nner fett <em>samtidigt</em>.</p>
+
+    <div class="callout blue">
+      <strong>Sanningen om rekomp:</strong> Din kropp vet inte om du &quot;vill&quot; g&aring; ner i vikt eller bygga muskler. Den reagerar p&aring; signaler. Tung styrketr&auml;ning + h&ouml;gt proteinintag + litet kaloriunderskott = kroppen bevarar muskler och tvingar fettcellerna att bidra med energi.
+    </div>
+
+    <ul class="principle-list">
+      <li><span class="principle-num">01</span><div><strong>Progressiv &ouml;verbelastning &auml;r nyckeln.</strong> Varje vecka ska du lyfta lite tyngre, g&ouml;ra en rep till, eller vila lite kortare. Muskler v&auml;xer som svar p&aring; stress.</div></li>
+      <li><span class="principle-num">02</span><div><strong>Protein &auml;r din viktigaste makro.</strong> Minst 130g/dag. Utan det f&ouml;rlorar du muskler i kalorirestriktionen.</div></li>
+      <li><span class="principle-num">03</span><div><strong>Steg r&auml;knas mer &auml;n du tror.</strong> 10 000 steg/dag = ~400&ndash;500 extra kcal br&auml;nt. Din &quot;smygbr&auml;nning&quot;.</div></li>
+      <li><span class="principle-num">04</span><div><strong>Cykeln styr tr&auml;ningen.</strong> PMDS &auml;r verkligt och biologiskt. Du tr&auml;nar h&aring;rdast n&auml;r kroppen &auml;r redo, och smartare under PMDS-veckan.</div></li>
+      <li><span class="principle-num">05</span><div><strong>Konsistens sl&aring;r perfektion.</strong> En s&aring;-d&auml;r tr&auml;ning 80% av tiden ger mer resultat &auml;n ett &quot;perfekt&quot; program du inte orkar h&aring;lla.</div></li>
+    </ul>
+  </div>
+
+  <hr class="gradient-divider">
+
+  <!-- TR&Auml;NINGSPROGRAM -->
+  <div class="section">
+    <span class="section-label red">Tr&auml;ningsprogram</span>
+    <h2>3 Dagar &middot; Full Gym &middot; 90 Minuter</h2>
+    <p class="lead">Tre helkroppsfokuserade pass med olika prioritet. Full kropp 3x/vecka &auml;r det mest effektiva uppl&auml;gget &mdash; varje muskel tr&auml;nas tre g&aring;nger ist&auml;llet f&ouml;r en g&aring;ng i veckan.</p>
+
+    <div class="callout blue">
+      <strong>RPE-skala:</strong> RPE 7 = 3 reps i tanken. RPE 8 = 2 reps i tanken. RPE 9 = 1 rep i tanken. B&ouml;rja konservativt och bygg upp.
+    </div>
+
+    <!-- DAY A -->
+    <div class="card">
+      <div class="day-header">
+        <div class="day-badge blue">DAG A</div>
+        <div>
+          <div class="day-title">Underkropp &mdash; Glutes &amp; Ben</div>
+          <div class="day-subtitle">Fokus: Gluteus maximus, quads, hamstrings, core</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="phase-title blue">Uppv&auml;rmning &mdash; 10 min</div>
+        <div class="exercise-row"><span class="exercise-name">Cykel eller rodd</span><span class="exercise-sets">&mdash;</span><span class="exercise-reps">5 min</span><span class="exercise-note">Puls upp, inte utmattning</span></div>
+        <div class="exercise-row"><span class="exercise-name">Hip circles + leg swings</span><span class="exercise-sets">2x</span><span class="exercise-reps">10/sida</span><span class="exercise-note">Aktivera h&ouml;fter</span></div>
+        <div class="exercise-row"><span class="exercise-name">Glute bridge (kroppsvikt)</span><span class="exercise-sets">2x</span><span class="exercise-reps">15</span><span class="exercise-note">Aktivera glutes</span></div>
+
+        <div class="phase-title red">Compound-block &mdash; 50 min</div>
+        <div class="exercise-row"><span class="ex-header">&Ouml;vning</span><span class="ex-header">Set</span><span class="ex-header">Reps</span><span class="ex-header">Notering</span></div>
+        <div class="exercise-row"><span class="exercise-name">Barbell Back Squat</span><span class="exercise-sets">4</span><span class="exercise-reps">8&ndash;10</span><span class="exercise-note">RPE 7&ndash;8, vila 2 min</span></div>
+        <div class="exercise-row"><span class="exercise-name">Romanian Deadlift</span><span class="exercise-sets">4</span><span class="exercise-reps">10&ndash;12</span><span class="exercise-note">Str&auml;ck hamstrings, RPE 7</span></div>
+        <div class="exercise-row"><span class="exercise-name">Barbell Hip Thrust</span><span class="exercise-sets">4</span><span class="exercise-reps">12&ndash;15</span><span class="exercise-note">Squeeze i topp</span></div>
+        <div class="exercise-row"><span class="exercise-name">Walking Lunges</span><span class="exercise-sets">3</span><span class="exercise-reps">10/ben</span><span class="exercise-note">Kontrollerat</span></div>
+        <div class="exercise-row"><span class="exercise-name">Leg Press (h&ouml;gt fot)</span><span class="exercise-sets">3</span><span class="exercise-reps">15</span><span class="exercise-note">H&ouml;gt = mer glutes</span></div>
+        <div class="exercise-row"><span class="exercise-name">Leg Curl</span><span class="exercise-sets">3</span><span class="exercise-reps">12</span><span class="exercise-note">Isometrisk 1s i topp</span></div>
+
+        <div class="phase-title purple">Core Finisher &mdash; 15 min</div>
+        <div class="exercise-row"><span class="exercise-name">Plank</span><span class="exercise-sets">3</span><span class="exercise-reps">45&ndash;60s</span><span class="exercise-note">Stram rumpa och mage</span></div>
+        <div class="exercise-row"><span class="exercise-name">Dead Bug</span><span class="exercise-sets">3</span><span class="exercise-reps">8/sida</span><span class="exercise-note">L&auml;ndryggen mot golvet</span></div>
+        <div class="exercise-row"><span class="exercise-name">Cable Crunch</span><span class="exercise-sets">3</span><span class="exercise-reps">15</span><span class="exercise-note">Ryggen mot kn&auml;na</span></div>
+      </div>
+    </div>
+
+    <!-- DAY B -->
+    <div class="card">
+      <div class="day-header">
+        <div class="day-badge red">DAG B</div>
+        <div>
+          <div class="day-title">&Ouml;verkropp &amp; Core &mdash; Supersets</div>
+          <div class="day-subtitle">Fokus: Rygg, br&ouml;st, axlar, armar</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="phase-title blue">Uppv&auml;rmning &mdash; 10 min</div>
+        <div class="exercise-row"><span class="exercise-name">Rodd (l&aring;g intensitet)</span><span class="exercise-sets">&mdash;</span><span class="exercise-reps">5 min</span><span class="exercise-note">&Ouml;ppnar ryggen</span></div>
+        <div class="exercise-row"><span class="exercise-name">Band pull-aparts</span><span class="exercise-sets">2x</span><span class="exercise-reps">15</span><span class="exercise-note">Rotator cuff</span></div>
+        <div class="exercise-row"><span class="exercise-name">Wall angels</span><span class="exercise-sets">2x</span><span class="exercise-reps">10</span><span class="exercise-note">Axelr&ouml;rlighet</span></div>
+
+        <div class="phase-title red">Supersets &mdash; 50 min</div>
+        <div class="superset-note">Supersetter = g&ouml;r A direkt f&ouml;ljt av B, vila 90s, upprepa. Sparar tid och h&aring;ller tempot uppe.</div>
+        <div class="exercise-row"><span class="ex-header">&Ouml;vning</span><span class="ex-header">Set</span><span class="ex-header">Reps</span><span class="ex-header">Notering</span></div>
+        <div class="exercise-row"><span class="exercise-name">A1: Incline DB Press</span><span class="exercise-sets">4</span><span class="exercise-reps">10&ndash;12</span><span class="exercise-note">30&deg; b&auml;nk</span></div>
+        <div class="exercise-row"><span class="exercise-name">A2: Seated Cable Row</span><span class="exercise-sets">4</span><span class="exercise-reps">10&ndash;12</span><span class="exercise-note">Axlarna ner</span></div>
+        <div class="exercise-row"><span class="exercise-name">B1: Lat Pulldown</span><span class="exercise-sets">3</span><span class="exercise-reps">12</span><span class="exercise-note">Dra med armb&aring;garna</span></div>
+        <div class="exercise-row"><span class="exercise-name">B2: DB Shoulder Press</span><span class="exercise-sets">3</span><span class="exercise-reps">12</span><span class="exercise-note">Neutral grepp</span></div>
+        <div class="exercise-row"><span class="exercise-name">C1: Lateral Raises</span><span class="exercise-sets">3</span><span class="exercise-reps">15</span><span class="exercise-note">L&auml;tt vikt, ingen svaj</span></div>
+        <div class="exercise-row"><span class="exercise-name">C2: Face Pulls</span><span class="exercise-sets">3</span><span class="exercise-reps">15</span><span class="exercise-note">Axelh&auml;lsa</span></div>
+
+        <div class="phase-title purple">Armar + Core &mdash; 15 min</div>
+        <div class="exercise-row"><span class="exercise-name">Bicep Curl (alternerande)</span><span class="exercise-sets">3</span><span class="exercise-reps">12/arm</span><span class="exercise-note">Supinera i topp</span></div>
+        <div class="exercise-row"><span class="exercise-name">Tricep Pushdown</span><span class="exercise-sets">3</span><span class="exercise-reps">12</span><span class="exercise-note">L&aring;s armb&aring;garna</span></div>
+        <div class="exercise-row"><span class="exercise-name">Hanging Knee Raise</span><span class="exercise-sets">3</span><span class="exercise-reps">12</span><span class="exercise-note">Kontrollerat ner</span></div>
+      </div>
+    </div>
+
+    <!-- DAY C -->
+    <div class="card">
+      <div class="day-header">
+        <div class="day-badge purple">DAG C</div>
+        <div>
+          <div class="day-title">Full Kropp Power + Metabolic</div>
+          <div class="day-subtitle">Fokus: Styrka, atletism, kaloriförbränning</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="phase-title blue">Uppv&auml;rmning &mdash; 10 min</div>
+        <div class="exercise-row"><span class="exercise-name">Dynamisk stretch + mobilitet</span><span class="exercise-sets">&mdash;</span><span class="exercise-reps">5 min</span><span class="exercise-note">H&ouml;ft, axlar, br&ouml;strygg</span></div>
+        <div class="exercise-row"><span class="exercise-name">Kettlebell swing</span><span class="exercise-sets">2x</span><span class="exercise-reps">15</span><span class="exercise-note">Aktivera posterior chain</span></div>
+
+        <div class="phase-title red">Styrka &mdash; 45 min</div>
+        <div class="exercise-row"><span class="ex-header">&Ouml;vning</span><span class="ex-header">Set</span><span class="ex-header">Reps</span><span class="ex-header">Notering</span></div>
+        <div class="exercise-row"><span class="exercise-name">Conventional Deadlift</span><span class="exercise-sets">4</span><span class="exercise-reps">5&ndash;6</span><span class="exercise-note">RPE 8, vila 2&ndash;3 min</span></div>
+        <div class="exercise-row"><span class="exercise-name">Push-up / DB Press</span><span class="exercise-sets">4</span><span class="exercise-reps">10&ndash;15</span><span class="exercise-note"></span></div>
+        <div class="exercise-row"><span class="exercise-name">Bulgarian Split Squat</span><span class="exercise-sets">3</span><span class="exercise-reps">10/ben</span><span class="exercise-note">Bak fot p&aring; b&auml;nk</span></div>
+        <div class="exercise-row"><span class="exercise-name">Single Arm DB Row</span><span class="exercise-sets">3</span><span class="exercise-reps">12/arm</span><span class="exercise-note">Full stretch i botten</span></div>
+        <div class="exercise-row"><span class="exercise-name">Cable Glute Kickback</span><span class="exercise-sets">3</span><span class="exercise-reps">15/ben</span><span class="exercise-note">Squeeze 1 sek</span></div>
+
+        <div class="phase-title purple">Metabolic Finisher &mdash; 15 min</div>
+        <div class="superset-note">30 sekunder p&aring; &middot; 30 sekunder av &middot; 5&ndash;6 varv. V&auml;lj EN:</div>
+        <div class="exercise-row"><span class="exercise-name">Assault bike sprint</span><span class="exercise-sets">6</span><span class="exercise-reps">30s/30s</span><span class="exercise-note">All-out</span></div>
+        <div class="exercise-row"><span class="exercise-name">Battle ropes</span><span class="exercise-sets">6</span><span class="exercise-reps">30s/30s</span><span class="exercise-note">Alternating waves</span></div>
+        <div class="exercise-row"><span class="exercise-name">Sled push</span><span class="exercise-sets">5</span><span class="exercise-reps">15m</span><span class="exercise-note">Vila = g&aring; tillbaka</span></div>
+      </div>
+    </div>
+
+    <div class="callout red">
+      <strong>Progressionsregel:</strong> Klarar du ALLA set och reps med god form &rarr; &ouml;ka vikten +2,5 kg (underkropp) eller +1&ndash;2 kg (&ouml;verkropp) n&auml;sta pass. Notera alltid vikt i telefonen.
+    </div>
+  </div>
+
+  <hr class="gradient-divider">
+
+  <!-- NUTRITION -->
+  <div class="section">
+    <span class="section-label red">Nutrition</span>
+    <h2>Kost f&ouml;r Rekomp</h2>
+    <p class="lead">1800 kcal &auml;r r&auml;tt territorium f&ouml;r rekomp &mdash; men f&ouml;rdelningen &auml;r allt. De flesta &auml;ter f&ouml;r lite protein och f&ouml;r mycket tomma kalorier.</p>
+
+    <div class="macro-grid">
+      <div class="macro-card">
+        <span class="macro-num">1800</span>
+        <span class="macro-unit">kcal</span>
+        <div class="macro-name">Vilodagar</div>
+      </div>
+      <div class="macro-card">
+        <span class="macro-num">1950</span>
+        <span class="macro-unit">kcal</span>
+        <div class="macro-name">Tr&auml;ningsdagar</div>
+      </div>
+      <div class="macro-card highlight">
+        <span class="macro-num">130g+</span>
+        <span class="macro-unit">protein/dag</span>
+        <div class="macro-name">Prioritet #1</div>
+      </div>
+      <div class="macro-card">
+        <span class="macro-num">160g</span>
+        <span class="macro-unit">kolhydrater</span>
+        <div class="macro-name">Timing</div>
+      </div>
+    </div>
+
+    <div class="callout red">
+      <strong>Varf&ouml;r 130g protein &auml;r icke-f&ouml;rhandlingsbart:</strong> I ett kaloriunderskott utan tillr&auml;ckligt protein &auml;ter kroppen dina muskler f&ouml;r energi. Du vill f&ouml;rlora fett, inte muskler. 130g/dag &auml;r minimum. 140&ndash;150g &auml;r &auml;nnu b&auml;ttre.
+    </div>
+
+    <span class="section-label blue" style="margin-top:20px">B&auml;sta proteink&auml;llorna</span>
+    <div class="food-list">
+      <div class="food-item"><div class="food-name">Kyckling / Kalkon</div><div class="food-macros">100g &rarr; <span class="food-protein">31g protein</span> &middot; 165 kcal</div></div>
+      <div class="food-item"><div class="food-name">Kvarg / Skyr</div><div class="food-macros">200g &rarr; <span class="food-protein">22g protein</span> &middot; 130 kcal</div></div>
+      <div class="food-item"><div class="food-name">&Auml;gg (3 st)</div><div class="food-macros">3 &auml;gg &rarr; <span class="food-protein">18g protein</span> &middot; 210 kcal</div></div>
+      <div class="food-item"><div class="food-name">Proteinshake</div><div class="food-macros">1 scoop &rarr; <span class="food-protein">24g protein</span> &middot; 120 kcal</div></div>
+      <div class="food-item"><div class="food-name">Lax (150g)</div><div class="food-macros">150g &rarr; <span class="food-protein">33g protein</span> &middot; 280 kcal</div></div>
+      <div class="food-item"><div class="food-name">Cottage Cheese</div><div class="food-macros">200g &rarr; <span class="food-protein">20g protein</span> &middot; 140 kcal</div></div>
+      <div class="food-item"><div class="food-name">N&ouml;tkött / Fl&auml;skfil&eacute;</div><div class="food-macros">150g &rarr; <span class="food-protein">35g protein</span> &middot; 220 kcal</div></div>
+      <div class="food-item"><div class="food-name">R&auml;kor (150g)</div><div class="food-macros">150g &rarr; <span class="food-protein">25g protein</span> &middot; 130 kcal</div></div>
+    </div>
+
+    <span class="section-label purple" style="margin-top:36px">Exempel Dag &mdash; Tr&auml;ningsdag (~1950 kcal)</span>
+
+    <div style="margin-top:14px">
+      <div class="meal-card"><div class="meal-time">Frukost &mdash; 07:00</div><div class="meal-name">&Auml;ggr&ouml;ra (3 &auml;gg) + havregrynsgr&ouml;t (50g) + b&auml;r</div><div class="meal-macros">420 kcal &middot; <span>35g protein</span> &middot; 45g kolh &middot; 12g fett</div></div>
+      <div class="meal-card"><div class="meal-time">Lunch &mdash; 12:00</div><div class="meal-name">Kycklingfil&eacute; (175g) + s&ouml;tpotatis (150g) + broccoli</div><div class="meal-macros">500 kcal &middot; <span>50g protein</span> &middot; 45g kolh &middot; 10g fett</div></div>
+      <div class="meal-card preworkout"><div class="meal-time">Pre-workout &mdash; 30 min innan</div><div class="meal-name">Banan + proteinshake</div><div class="meal-macros">260 kcal &middot; <span>25g protein</span> &middot; 30g kolh &middot; 2g fett</div></div>
+      <div class="meal-card"><div class="meal-time">Middag &mdash; 18:00 (post-training)</div><div class="meal-name">Lax (180g) + jasminris (100g) + gr&ouml;nsaker</div><div class="meal-macros">580 kcal &middot; <span>48g protein</span> &middot; 60g kolh &middot; 14g fett</div></div>
+      <div class="meal-card"><div class="meal-time">Kv&auml;llssnack &mdash; 20:30</div><div class="meal-name">Kvarg (200g) + b&auml;r + lite honung</div><div class="meal-macros">185 kcal &middot; <span>22g protein</span> &middot; 18g kolh &middot; 1g fett</div></div>
+    </div>
+
+    <div class="callout blue" style="margin-top:22px;">
+      <strong>Kolhydrater och timing:</strong> &Auml;t dina flesta kolhydrater runt tr&auml;ningen (pre &amp; post). Under PMDS-veckan: om cravings &ouml;kar med 200&ndash;300 kcal &rarr; &auml;t dem. Sl&aring;ss inte mot biologi.
+    </div>
+  </div>
+
+  <hr class="gradient-divider">
+
+  <!-- PMDS -->
+  <div class="section">
+    <span class="section-label purple">PMDS &amp; Cykelsynkning</span>
+    <h2>Tr&auml;na med din kropp, inte mot den</h2>
+    <p class="lead">PMDS &auml;r biologiskt verkligt. Ist&auml;llet f&ouml;r att ignorera det bygger det h&auml;r programmet in din cykel som en variabel.</p>
+
+    <div class="cycle-grid">
+      <div class="cycle-card">
+        <div class="cycle-phase red"><span class="cycle-dot red"></span> Fas 1 &mdash; Menstruation</div>
+        <div class="cycle-days">Dag 1&ndash;5</div>
+        <div class="cycle-desc">Energi varierar. Lyssna p&aring; kroppen. L&auml;tt till moderat tr&auml;ning. R&ouml;relse hj&auml;lper mot kramper.</div>
+        <div class="cycle-tags"><span class="cycle-tag">L&auml;gre intensitet ok</span><span class="cycle-tag">Yoga/promenad</span></div>
+      </div>
+      <div class="cycle-card">
+        <div class="cycle-phase blue"><span class="cycle-dot blue"></span> Fas 2 &mdash; Follikulärfas</div>
+        <div class="cycle-days">Dag 6&ndash;14</div>
+        <div class="cycle-desc">&Ouml;strogen stiger. Energi, styrka och hum&ouml;r f&ouml;rb&auml;ttras. DIN TR&Auml;NINGSPEAK. Tryck h&aring;rdare, &ouml;ka vikterna.</div>
+        <div class="cycle-tags"><span class="cycle-tag">Max intensitet</span><span class="cycle-tag">&Ouml;ka vikter</span><span class="cycle-tag">Ny PB-potential</span></div>
+      </div>
+      <div class="cycle-card">
+        <div class="cycle-phase green"><span class="cycle-dot green"></span> Fas 3 &mdash; Ovulation</div>
+        <div class="cycle-days">Dag 14&ndash;16</div>
+        <div class="cycle-desc">Styrketopp. &Ouml;strogen p&aring; max. OBS: ledlaxitet &ouml;kar &mdash; extra noga med teknik.</div>
+        <div class="cycle-tags"><span class="cycle-tag">Starkaste dagarna</span><span class="cycle-tag">Teknikfokus</span></div>
+      </div>
+      <div class="cycle-card pmds-card">
+        <div class="cycle-phase purple"><span class="cycle-dot purple"></span> Fas 4 &mdash; PMDS-veckan</div>
+        <div class="cycle-days">Dag 21&ndash;28</div>
+        <div class="cycle-desc">Progesteron dominerar. Tr&ouml;tthet, inflammation. Minska vikten 15&ndash;20%. Fokus p&aring; teknik. Skippa INTE tr&auml;ning &mdash; r&ouml;relse &auml;r medicin.</div>
+        <div class="cycle-tags"><span class="cycle-tag">&ndash;15&ndash;20% vikt</span><span class="cycle-tag">Extra vila</span><span class="cycle-tag">Pilates/yoga ok</span><span class="cycle-tag">+200 kcal till&aring;tet</span></div>
+      </div>
+    </div>
+
+    <div class="callout purple" style="margin-top:22px;">
+      <strong>PMDS &amp; Kalorier:</strong> Under lutealfasen stiger basalmetabolismen med ~100&ndash;300 kcal. Cravings f&ouml;r kolhydrater &auml;r ett progesteronsvar, inte svaghet. Till&aring;t dig +150&ndash;200 kcal extra &mdash; komplexa kolhydrater.
+    </div>
+  </div>
+
+  <hr class="gradient-divider">
+
+  <!-- ADHD -->
+  <div class="section">
+    <span class="section-label green">ADHD &amp; Tr&auml;ning</span>
+    <h2>System som faktiskt funkar</h2>
+    <p class="lead">ADHD g&ouml;r att rutiner &auml;r sv&aring;ra att starta men l&auml;tta att h&aring;lla n&auml;r de v&auml;l sitter. Tricket &auml;r att eliminera friktion.</p>
+
+    <div class="tip-grid">
+      <div class="tip-card"><div class="tip-icon">🎒</div><div class="tip-title">Gymv&auml;skan packas kv&auml;llen innan</div><div class="tip-body">Kl&auml;der, skor, earbuds &mdash; allt klart. Eliminera friktionen vid start.</div></div>
+      <div class="tip-card"><div class="tip-icon">📋</div><div class="tip-title">Logg i telefonen</div><div class="tip-body">&Ouml;vning &middot; Vikt &middot; Set &middot; Reps. Bockmarkering ger dopaminkick.</div></div>
+      <div class="tip-card"><div class="tip-icon">🎵</div><div class="tip-title">Samma playlist = tr&auml;ningsl&auml;ge</div><div class="tip-body">Hj&auml;rnan kopplar musik &rarr; tr&auml;ning. Dopaminprimat.</div></div>
+      <div class="tip-card"><div class="tip-icon">⏱️</div><div class="tip-title">Supersets h&aring;ller fokus</div><div class="tip-body">Dag B &auml;r designat med supersets: aldrig stilla = aldrig uttr&aring;kad.</div></div>
+      <div class="tip-card"><div class="tip-icon">📅</div><div class="tip-title">Samma dagar varje vecka</div><div class="tip-body">M&aring;n &middot; Ons &middot; Fre. Inget varierande schema.</div></div>
+      <div class="tip-card"><div class="tip-icon">🏆</div><div class="tip-title">Bel&ouml;na n&auml;rvaro</div><div class="tip-body">Kom till gymmet = win. N&auml;rvaro skapar vana. Vana skapar resultat.</div></div>
+    </div>
+  </div>
+
+  <hr class="gradient-divider">
+
+  <!-- PHOTO ANALYSIS -->
+  <div class="section">
+    <span class="section-label blue">Bildanalys &amp; Progress</span>
+    <h2>Hur du anv&auml;nder mig som PT</h2>
+
+    <div class="feature-card blue-glass">
+      <h3>📸 Kroppsutv&auml;rdering via Bild</h3>
+      <p>Skicka en bild i chatten och jag analyserar:</p>
+      <ul class="feature-list">
+        <li>Nuvarande kroppssammans&auml;ttning och kroppsfett-estimation</li>
+        <li>Vilka muskelgrupper som beh&ouml;ver mer fokus</li>
+        <li>H&aring;llning och eventuella obalanser</li>
+        <li>F&ouml;rslag p&aring; justeringar i programmet</li>
+      </ul>
+    </div>
+
+    <div class="feature-card red-glass">
+      <h3>📊 Progress-j&auml;mf&ouml;relse (Bild 1 vs Bild 2)</h3>
+      <p>Skicka en &quot;f&ouml;re&quot; och &quot;efter&quot;-bild och jag:</p>
+      <ul class="feature-list">
+        <li>J&auml;mf&ouml;r kroppsammans&auml;ttning mellan bilderna</li>
+        <li>Identifierar var definition f&ouml;rb&auml;ttrats</li>
+        <li>Ger &auml;rlig, direkt feedback</li>
+        <li>Justerar programmet om n&ouml;dv&auml;ndigt</li>
+      </ul>
+      <p style="margin-top:12px;"><strong style="color:#ef4444;">Tips:</strong> Alltid samma ljus, tid p&aring; dagen, kl&auml;der. Frontal + sida.</p>
+    </div>
+
+    <div class="feature-card green-glass">
+      <h3>🍽️ Kaloriuppskattning fr&aring;n Matbild</h3>
+      <p>Precis som LifeSam &mdash; skicka en bild p&aring; din tallrik:</p>
+      <ul class="feature-list">
+        <li>Bild rakt uppifr&aring;n med bra ljus</li>
+        <li>Ber&auml;tta vad det &auml;r om det &auml;r sv&aring;rt att se</li>
+        <li>Ange ungef&auml;r storlek om m&ouml;jligt</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="gradient-divider">
+
+  <!-- PROGRESS -->
+  <div class="section" style="padding-bottom: 10px;">
+    <span class="section-label green">M&auml;t framg&aring;ng</span>
+    <h2>Vad du ska f&ouml;lja &mdash; och ignorera</h2>
+    <p class="lead">Vikten p&aring; v&aring;gen &auml;r det minst viktiga m&aring;ttet.</p>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-label"><span>Styrka i gym</span><span class="progress-tag high">Viktigast</span></div>
+      <div class="progress-bar-bg"><div class="progress-bar" style="width:95%"></div></div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-label"><span>Hur kl&auml;derna sitter</span><span class="progress-tag high">Mycket viktigt</span></div>
+      <div class="progress-bar-bg"><div class="progress-bar" style="width:90%"></div></div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-label"><span>Progressbilder (m&aring;nadsvis)</span><span class="progress-tag high">Viktigt</span></div>
+      <div class="progress-bar-bg"><div class="progress-bar" style="width:80%"></div></div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-label"><span>Energiniv&aring; och hum&ouml;r</span><span class="progress-tag high">Viktigt</span></div>
+      <div class="progress-bar-bg"><div class="progress-bar" style="width:75%"></div></div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-label"><span>Daglig vikt p&aring; v&aring;gen</span><span class="progress-tag low">Ignorera</span></div>
+      <div class="progress-bar-bg"><div class="progress-bar dim" style="width:20%"></div></div>
+    </div>
+
+    <div class="callout blue" style="margin-top:26px;">
+      <strong>Realistisk tidslinje:</strong> Vecka 1&ndash;4 = neurologisk anpassning. Vecka 5&ndash;12 = f&ouml;rsta synliga f&ouml;r&auml;ndringen. M&aring;nad 3&ndash;6 = tydlig rekomp-effekt. <strong>Giv det tid.</strong>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <span class="footer-gradient">Elins Hollywood PT Program</span><br>
+  3 dagar/vecka &middot; Full gym &middot; Rekomp-fokus &middot; PMDS-aware &middot; ADHD-optimerat<br><br>
+  <em>B&ouml;rja meddelandet med &quot;Hej PT&quot; f&ouml;r l&ouml;pande analys och programjusteringar</em>
+</div>
+
+</body>
+</html>
